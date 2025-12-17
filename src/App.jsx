@@ -39,7 +39,6 @@ function useKonamiPartyMode() {
 }
 
 function FXCanvas() {
-  // Partículas + glow suave. No pesado.
   useEffect(() => {
     const c = document.getElementById("fx");
     if (!c) return;
@@ -67,8 +66,10 @@ function FXCanvas() {
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
 
-      // “nebula glow”
-      const g = ctx.createRadialGradient(w * 0.58, h * 0.28, 40, w * 0.58, h * 0.28, Math.max(w, h));
+      const g = ctx.createRadialGradient(
+        w * 0.58, h * 0.28, 40,
+        w * 0.58, h * 0.28, Math.max(w, h)
+      );
       g.addColorStop(0, "rgba(0,255,179,0.10)");
       g.addColorStop(1, "rgba(0,0,0,0)");
       ctx.fillStyle = g;
@@ -125,7 +126,6 @@ function CopyBlock({ title, value }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 900);
     } catch {
-      // Si no hay permisos, no pasa nada: el usuario puede copiar manual.
       setCopied(false);
     }
   };
@@ -205,6 +205,10 @@ export default function App() {
     { id: "rescue", label: "🆘 Rescate", sub: "si el PC se pone digno" },
   ]), []);
 
+  // ✅ ESTO ES LO QUE TE FALTABA
+  const [tab, setTab] = useState("start");
+
+  // ✅ Scroll arriba al cambiar pestaña (para que no “empiece a mitad”)
   useEffect(() => {
     const panel = document.querySelector(".panel");
     if (panel) panel.scrollTop = 0;
@@ -216,7 +220,6 @@ export default function App() {
       <div className="scanlines" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
 
-      {/* HERO */}
       <header className="hero">
         <div className="heroTop">
           <div className="logo">
@@ -243,8 +246,8 @@ export default function App() {
 
         <p className="subtitle">
           Este USB convierte un ordenador en una consola retro en cuestión de segundos.
-          Tu objetivo hoy: <b>arrancar desde USB</b>. El ordenador no sufre.
-          Tú… como mucho sudas un poco mientras pulsas F12 como si estuvieras en una final.
+          Tu objetivo: <b>arrancar desde USB</b>. El ordenador no sufre.
+          Tú… solo sudas un poco mientras machacas F12 como si fuera un quick-time event.
         </p>
 
         <div className="nav" role="tablist" aria-label="Secciones">
@@ -255,6 +258,7 @@ export default function App() {
               onClick={() => setTab(t.id)}
               role="tab"
               aria-selected={tab === t.id}
+              title={t.sub}
             >
               {t.label}
             </button>
@@ -262,15 +266,12 @@ export default function App() {
         </div>
       </header>
 
-      {/* CONTENT */}
       <main className="grid">
-        {/* LEFT */}
         {tab === "start" && (
           <section className="card panel" role="tabpanel">
-
             <div className="cardTitle">🚀 Arranque: el ritual (corto y sin magia negra)</div>
 
-            <Step n="1" title="Conecta el USB (sin miedo)">
+            <Step n="1" title="Conecta el USB (cero miedo)">
               <ul className="list">
                 <li>Apaga el ordenador.</li>
                 <li>Conecta este USB.</li>
@@ -279,37 +280,36 @@ export default function App() {
               <div className="callout">
                 <div className="calloutTitle">Traducción humana</div>
                 <p className="muted">
-                  No estás “instalando” nada. Solo estás diciendo: “oye PC, hoy arrancas desde el USB”.
+                  No estás instalando nada. Solo le estás diciendo al PC:
+                  “hoy arrancas desde el USB, campeón”.
                 </p>
               </div>
             </Step>
 
             <Step n="2" title="Saca el menú de arranque (modo gamer)">
-              <p className="muted">
-                Nada más encender, pulsa varias veces una de estas teclas:
-              </p>
+              <p className="muted">Nada más encender, pulsa varias veces:</p>
               <KeyRow />
               <p className="muted">
-                Aparecerá un menú. Elige algo que ponga <b>USB</b> o <b>UEFI USB</b>.
-                Si no sale, apaga y prueba otra tecla. (Sí: funciona así de cutre y así de real.)
+                Saldrá un menú. Elige algo tipo <b>USB</b> o <b>UEFI USB</b>.
+                Si no sale, apaga y prueba otra tecla. Sí, es así de “PC”.
               </p>
             </Step>
 
-            <Step n="3" title="Entra Batocera (y la nostalgia te abraza)">
+            <Step n="3" title="Entra Batocera (y te abraza la nostalgia)">
               <p className="muted">
-                Si lo has hecho bien verás el menú de sistemas/consolas.
-                Respira: ya está. Lo difícil era el minuto 1.
+                Si lo has hecho bien, verás el menú de consolas/sistemas.
+                Respira: lo difícil era el minuto 1.
               </p>
               <div className="callout">
                 <div className="calloutTitle">Atajo mental (guárdalo)</div>
-                <p className="muted"><b>Encender → F12 (o F10/ESC/DEL) → USB → a jugar</b></p>
+                <p className="muted"><b>Encender → F12 (o F10/ESC/DEL) → USB → jugar</b></p>
               </div>
             </Step>
 
             <div className="callout">
               <div className="calloutTitle">🛑 Para salir sin liarla</div>
               <p className="muted">
-                Menú → <b>Quit</b> → Apagar. Quitas el USB. El PC vuelve a su vida normal.
+                Menú → <b>Quit</b> → Apagar. Quitas el USB y el PC vuelve a ser un PC normal.
               </p>
             </div>
           </section>
@@ -317,17 +317,17 @@ export default function App() {
 
         {tab === "games" && (
           <section className="card panel" role="tabpanel">
-            <div className="cardTitle">🧩 Juegos: el “pero” legal (y cómo solucionarlo fácil)</div>
+            <div className="cardTitle">🧩 Juegos: el “pero” legal (y la solución fácil)</div>
 
             <p className="muted">
               Este USB <b>no incluye juegos</b>. No es por rácanos: es por legalidad.
-              La buena noticia: <b>meter juegos es sencillo</b>.
+              La buena noticia: añadirlos es fácil y rápido.
             </p>
 
             <div className="callout">
-              <div className="calloutTitle">✅ Opción recomendada</div>
+              <div className="calloutTitle">✅ Opción recomendada (sin apps raras)</div>
               <p className="muted">
-                Copiar juegos por red local desde otro PC. Es lo más cómodo, y no requiere apps raras.
+                Copiar por red local: desde otro PC entras a <b>\\BATOCERA</b> y sueltas ROMs en <b>roms</b>.
               </p>
             </div>
 
@@ -337,45 +337,37 @@ export default function App() {
                 <li>Conéctalo por cable o Wi-Fi.</li>
               </ul>
               <p className="muted">
-                En cuanto tenga red, Batocera expone una carpeta compartida para copiar tus ROMs.
+                Con red, Batocera expone una carpeta compartida para copiar tus juegos.
               </p>
             </Step>
 
             <Step n="2" title="Desde Windows: abre la carpeta BATOCERA">
-              <p className="muted">
-                En un PC de Windows, abre el Explorador y pega esto:
-              </p>
+              <p className="muted">En Windows, en el Explorador pega:</p>
               <CopyBlock title="Ruta de red (Windows)" value={`\\\\BATOCERA`} />
               <p className="muted">
-                Dentro verás una carpeta llamada <b>roms</b>. Ahí va la fiesta.
+                Dentro: carpeta <b>roms</b>. Ahí va la fiesta.
               </p>
             </Step>
 
-            <Step n="3" title="Copia cada juego en su sistema">
-              <p className="muted">
-                Ejemplos rápidos:
-              </p>
+            <Step n="3" title="Copia cada juego en su sistema (rápido)">
               <ul className="list">
-                <li><code>.nes</code> → carpeta <b>nes</b></li>
-                <li><code>.sfc</code>/<code>.smc</code> → carpeta <b>snes</b></li>
-                <li><code>.gba</code> → carpeta <b>gba</b></li>
-                <li><code>.iso</code>/<code>.bin</code> → carpeta <b>psx</b></li>
+                <li><code>.nes</code> → <b>nes</b></li>
+                <li><code>.sfc</code>/<code>.smc</code> → <b>snes</b></li>
+                <li><code>.gba</code> → <b>gba</b></li>
+                <li><code>.iso</code>/<code>.bin</code> → <b>psx</b></li>
               </ul>
-
               <div className="callout">
-                <div className="calloutTitle">🧠 Truco que evita dudas</div>
+                <div className="calloutTitle">🧠 Truco sin drama</div>
                 <p className="muted">
-                  Si no sabes dónde va algo, mira el nombre de la carpeta: suele ser el sistema tal cual.
-                  Copias, vuelves al menú, y aparece.
+                  Copias los archivos, vuelves al menú, y aparecen. Si no aparecen: reinicia EmulationStation.
                 </p>
               </div>
             </Step>
 
             <div className="callout">
-              <div className="calloutTitle">⚠️ Nota legal (en modo humano)</div>
+              <div className="calloutTitle">⚠️ Nota legal (modo humano)</div>
               <p className="muted">
-                Usa copias legales: homebrew, tus dumps, juegos libres, etc.
-                El USB es la consola; los juegos los pones tú.
+                Usa copias legales: homebrew, dumps propios, juegos libres. El USB es la consola; los juegos los pones tú.
               </p>
             </div>
           </section>
@@ -383,38 +375,36 @@ export default function App() {
 
         {tab === "controllers" && (
           <section className="card panel" role="tabpanel">
-            <div className="cardTitle">🎮 Mandos: cuando el mando decide tener personalidad</div>
+            <div className="cardTitle">🎮 Mandos: cuando el mando decide ser protagonista</div>
 
             <p className="muted">
               Puedes usar <b>mando USB</b> o <b>teclado</b>. La primera vez, Batocera suele pedir mapear botones.
-              No es una prueba de inteligencia: es un trámite.
+              No es un examen. Es el peaje.
             </p>
 
-            <Step n="1" title="Configurar mando (rápido y sin llorar)">
+            <Step n="1" title="Configurar mando (rápido)">
               <ul className="list">
                 <li>Mantén pulsado un botón para empezar.</li>
-                <li>Asigna direcciones y botones cuando te lo pida.</li>
-                <li>Si te equivocas, se repite. Nadie muere.</li>
+                <li>Sigue el asistente (direcciones, A/B, Start…).</li>
+                <li>Si te equivocas, lo repites. Cero drama.</li>
               </ul>
             </Step>
 
-            <Step n="2" title="Si el mando hace cosas raras… el ritual USB">
+            <Step n="2" title="Si el mando hace cosas raras: ritual USB">
               <ul className="list">
                 <li>Desconecta el mando.</li>
-                <li>Vuelve a conectarlo (preferible en otro puerto).</li>
+                <li>Conéctalo en otro puerto USB (mejor directo al PC).</li>
                 <li>Reinicia Batocera si hace falta.</li>
               </ul>
               <div className="callout">
-                <div className="calloutTitle">💡 Consejo con experiencia</div>
-                <p className="muted">
-                  Evita hubs raros. Puerto USB directo al PC = menos drama.
-                </p>
+                <div className="calloutTitle">💡 Consejo con cicatrices</div>
+                <p className="muted">Evita hubs baratos. USB directo = menos fantasmas.</p>
               </div>
             </Step>
 
-            <Step n="3" title="Teclado: atajo de supervivencia">
+            <Step n="3" title="Teclado: plan B para salir vivo">
               <p className="muted">
-                Si te falta mando, con teclado puedes navegar y salir. No es tan bonito, pero funciona.
+                Si no hay mando, con teclado puedes navegar y salir. No es tan sexy, pero funciona.
               </p>
             </Step>
           </section>
@@ -444,15 +434,16 @@ export default function App() {
             <div className="callout">
               <div className="calloutTitle">Caso C: “Secure Boot” (el guardián del castillo)</div>
               <p className="muted">
-                Algunos PCs modernos bloquean arranque externo. Solución típica: entrar en BIOS/UEFI y desactivar <b>Secure Boot</b>.
-                Si esto te suena a conjuro: pide ayuda 2 minutos a alguien que sepa. Se hace una vez.
+                Algunos PCs modernos bloquean el arranque externo. Solución típica:
+                entrar en BIOS/UEFI y desactivar <b>Secure Boot</b>. Si te suena a hechizo:
+                pide ayuda 2 minutos a alguien que sepa. Se hace una vez.
               </p>
             </div>
 
             <div className="callout">
               <div className="calloutTitle">Caso D: pantalla negra / tarda</div>
               <p className="muted">
-                A veces tarda un poco. Si pasan 30–60s sin señales, reinicia y prueba otro puerto.
+                A veces tarda. Si pasan 30–60s sin señales, reinicia y prueba otro puerto.
               </p>
             </div>
 
@@ -482,7 +473,7 @@ export default function App() {
               <b>Encender → F12 → USB → jugar</b>
             </p>
             <p className="muted" style={{ marginTop: 6, opacity: 0.85 }}>
-              (Si no es F12: F10 / ESC / DEL. Sí. Bienvenido al mundo PC.)
+              (Si no es F12: F10 / ESC / DEL. Bienvenido al mundo PC.)
             </p>
           </MiniCard>
 
