@@ -247,7 +247,7 @@ export default function App() {
         <p className="subtitle">
           Este USB convierte un ordenador en una consola retro en cuestión de segundos.
           Tu objetivo: <b>arrancar desde USB</b>. El ordenador no sufre.
-          Tú… solo sudas un poco mientras machacas F12 como si fuera un quick-time event.
+          Tú… solo sudas un poco mientras machacas F12 como si no hubiera mañana.
         </p>
 
         <div className="nav" role="tablist" aria-label="Secciones">
