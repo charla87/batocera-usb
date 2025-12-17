@@ -68,12 +68,15 @@ body,
 .crt {
   position: relative;
   z-index: 2;
+  min-height: 100vh;
+
 }
 
 .hero {
-  max-width: 1100px;
-  margin: auto;
-  padding: 28px 18px 12px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 34px 22px 12px;
 }
 
 .heroTop {
@@ -190,12 +193,10 @@ body,
    =============================== */
 
 .grid {
-  max-width: 1100px;
-  margin: auto;
-  padding: 14px 18px 40px;
-  display: grid;
-  grid-template-columns: 1.5fr .9fr;
-  gap: 14px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 16px 22px 50px;
 }
 
 @media (max-width: 960px) {
