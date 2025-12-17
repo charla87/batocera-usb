@@ -205,7 +205,10 @@ export default function App() {
     { id: "rescue", label: "🆘 Rescate", sub: "si el PC se pone digno" },
   ]), []);
 
-  const [tab, setTab] = useState("start");
+  useEffect(() => {
+    const panel = document.querySelector(".panel");
+    if (panel) panel.scrollTop = 0;
+  }, [tab]);
 
   return (
     <div className="crt">
@@ -263,7 +266,8 @@ export default function App() {
       <main className="grid">
         {/* LEFT */}
         {tab === "start" && (
-          <section className="card" role="tabpanel">
+          <section className="card panel" role="tabpanel">
+
             <div className="cardTitle">🚀 Arranque: el ritual (corto y sin magia negra)</div>
 
             <Step n="1" title="Conecta el USB (sin miedo)">
@@ -312,7 +316,7 @@ export default function App() {
         )}
 
         {tab === "games" && (
-          <section className="card" role="tabpanel">
+          <section className="card panel" role="tabpanel">
             <div className="cardTitle">🧩 Juegos: el “pero” legal (y cómo solucionarlo fácil)</div>
 
             <p className="muted">
@@ -378,7 +382,7 @@ export default function App() {
         )}
 
         {tab === "controllers" && (
-          <section className="card" role="tabpanel">
+          <section className="card panel" role="tabpanel">
             <div className="cardTitle">🎮 Mandos: cuando el mando decide tener personalidad</div>
 
             <p className="muted">
@@ -417,7 +421,7 @@ export default function App() {
         )}
 
         {tab === "rescue" && (
-          <section className="card" role="tabpanel">
+          <section className="card panel" role="tabpanel">
             <div className="cardTitle">🆘 Rescate: si el PC se pone digno</div>
 
             <div className="callout">
